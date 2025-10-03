@@ -1,5 +1,5 @@
 ---
-description: "Automate filling in a login form and submitting it using Playwright."
+description: "Automate test cases to simulate user behavior using Playwright."
 mode: agent
 tools: ["playwright"]
 model: "GPT-4.1"
@@ -12,7 +12,7 @@ model: "GPT-4.1"
 - **Timeouts**: Rely on Playwright's built-in auto-waiting mechanisms. Avoid hard-coded waits or increased default timeouts.
 - **Clarity**: Use descriptive test and step titles that clearly state the intent. Add comments only to explain complex logic or non-obvious interactions.
 
-## Test Structure
+## Test Structure 
 
 - **Imports**: Start with `import { test, expect } from '@playwright/test';`.
 - **Organization**: Group related tests for a feature under a `test.describe()` block.
@@ -30,6 +30,8 @@ model: "GPT-4.1"
 - **Element Counts**: Use `toHaveCount` to assert the number of elements found by a locator.
 - **Text Content**: Use `toHaveText` for exact text matches and `toContainText` for partial matches.
 - **Navigation**: Use `toHaveURL` to verify the page URL after an action.
+- **Visibility**: Use `toBeVisible` only when testing visibility changes, not as a default assertion.
+- **State Changes**: Use assertions that reflect user-visible changes (e.g., text changes, element presence).
 
 ## Example Test Structure
 

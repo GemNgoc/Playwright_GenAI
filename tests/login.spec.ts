@@ -42,32 +42,42 @@ test.describe("Login Page - The Internet", () => {
     await expect(page.getByText("Your username is invalid!")).toBeVisible();
     await expect(page).toHaveURL(LOGIN_URL);
   });
+  test("TC-05: Username composed only of spaces", async ({ page }) => {
+    await login(page, "   ", "SuperSecretPassword!");
+    await expect(page.getByText("Your username is invalid!")).toBeVisible();
+    await expect(page).toHaveURL(LOGIN_URL);
+  });
+  test("TC-06: Password composed only of spaces", async ({ page }) => {
+    await login(page, "tomsmith", "   ");
+    await expect(page.getByText("Your password is invalid!")).toBeVisible();
+    await expect(page).toHaveURL(LOGIN_URL);
+  });
 
-  test("TC-05: Empty fields (both blank)", async ({ page }) => {
-    await login(page, "", "");
+  test("TC-07: Empty fields (both blank)", async ({ page }) => {
+    await login(page, "  ", "  ");
     await expect(page.getByText("Your username is invalid!")).toBeVisible();
     await expect(page).toHaveURL(LOGIN_URL);
   });
 
-  test("TC-06: SQL Injection attempt in username", async ({ page }) => {
+  test("TC-08: SQL Injection attempt in username", async ({ page }) => {
     await login(page, "tomsmith' OR '1'='1", "anything");
     await expect(page.getByText("Your username is invalid!")).toBeVisible();
     await expect(page).toHaveURL(LOGIN_URL);
   });
 
-  test("TC-07: Special characters in username", async ({ page }) => {
+  test("TC-09: Special characters in username", async ({ page }) => {
     await login(page, "!@#$%^&*", "SuperSecretPassword!");
     await expect(page.getByText("Your username is invalid!")).toBeVisible();
     await expect(page).toHaveURL(LOGIN_URL);
   });
 
-  test("TC-08: Case sensitivity check for username", async ({ page }) => {
+  test("TC-10: Case sensitivity check for username", async ({ page }) => {
     await login(page, "TomSmith", "SuperSecretPassword!");
     await expect(page.getByText("Your username is invalid!")).toBeVisible();
     await expect(page).toHaveURL(LOGIN_URL);
   });
 
-  test("TC-09: Leading/trailing spaces in username & password", async ({
+  test("TC-11: Leading/trailing spaces in username & password", async ({
     page,
   }) => {
     await login(page, " tomsmith ", " SuperSecretPassword! ");
@@ -75,13 +85,7 @@ test.describe("Login Page - The Internet", () => {
     await expect(page).toHaveURL(LOGIN_URL);
   });
 
-  test("TC-10: Password composed only of spaces", async ({ page }) => {
-    await login(page, "tomsmith", "   ");
-    await expect(page.getByText("Your password is invalid!")).toBeVisible();
-    await expect(page).toHaveURL(LOGIN_URL);
-  });
-
-  test("TC-11: Browser refresh after successful login (session persistence)", async ({
+  test("TC-12: Browser refresh after successful login (session persistence)", async ({
     page,
   }) => {
     await login(page, "tomsmith", "SuperSecretPassword!");
@@ -94,7 +98,7 @@ test.describe("Login Page - The Internet", () => {
     expect([SECURE_URL, LOGIN_URL]).toContain(page.url());
   });
 
-  test("TC-12: Valid login → refresh → logout (combined flow)", async ({
+  test("TC-13: Valid login → refresh → logout (combined flow)", async ({
     page,
   }) => {
     await login(page, "tomsmith", "SuperSecretPassword!");
